@@ -24,7 +24,7 @@ const SignUp = () => {
         await updateProfile({
             displayName: data.username,
         })
-        
+        reset()
     };
     return (
         <div className='my-2 md:my-4 lg:my-6'>
@@ -36,7 +36,7 @@ const SignUp = () => {
                         placeholder='Email'
                         {...register("email", { required: "Email Address is required" })}
                     />
-                    {errors.email && <p role="alert">{errors.email?.message}</p>}
+                    {errors.email && <p className='text-sm text-rose-600 mt-1' role="alert">{errors.email?.message}</p>}
                 </div>
                 <div className='mb-2'>
                     <input
@@ -45,7 +45,7 @@ const SignUp = () => {
                         placeholder='Username'
                         {...register("username", { required: "User name is required" })}
                     />
-                    {errors.email && <p role="alert">{errors.username?.message}</p>}
+                    {errors.email && <p className='text-sm text-rose-600 mt-1' role="alert">{errors.username?.message}</p>}
                 </div>
                 <div className='mb-2'>
                     <input
@@ -54,7 +54,7 @@ const SignUp = () => {
                         placeholder='Password'
                         {...register("password", { required: "Password is required" })}
                     />
-                    {errors.password && <p role="alert">{errors.password?.message}</p>}
+                    {errors.password && <p className='text-sm text-rose-600 mt-1' role="alert">{errors.password?.message}</p>}
                 </div>
                 <input className='py-1 px-8 rounded-full bg-teal-800 mt-2 cursor-pointer text-slate-50 hover:text-teal-800 hover:bg-slate-50 transition-all ease-in-out duration-500' type="submit" value="Sign Up" />
             </form>
