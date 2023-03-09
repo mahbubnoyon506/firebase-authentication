@@ -4,11 +4,9 @@ import { MdOutlineCancel } from 'react-icons/md'
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import auth from '../firebase.init';
 import toast from 'react-hot-toast';
+import { ResetValue, StateType } from '../shared/Types';
 
-type StateType = {
-    open: boolean,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+
 
 type FormValue = {
     email: string,
@@ -17,8 +15,8 @@ type FormValue = {
 const ResetPass = ({ open, setOpen }: StateType) => {
     const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm<FormValue>();
-    const onSubmit = async (data: FormValue) => {
+    const { register, formState: { errors }, handleSubmit, reset } = useForm<ResetValue>();
+    const onSubmit = async (data: ResetValue) => {
         sendPasswordResetEmail(data.email)
         reset()
         if(sending){

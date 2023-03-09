@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Login from '../../components/Login';
 import SignUp from '../../components/SignUp';
-import {MdOutlineCancel} from 'react-icons/md'
 import ResetPass from '../../components/ResetPass';
 
 

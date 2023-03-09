@@ -4,12 +4,7 @@ import auth from '../firebase.init';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import toast from 'react-hot-toast';
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
-
-type FormValue = {
-    username: string,
-    email: string,
-    password: string
-}
+import { SignupValue } from '../shared/Types';
 
 const SignUp = () => {
     const [showPass, setShowPass] = useState<boolean>(false);
@@ -19,10 +14,10 @@ const SignUp = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
-    const [updateProfile, updating, UpdateProfileError] = useUpdateProfile(auth);
-    const { register, formState: { errors }, handleSubmit, reset } = useForm<FormValue>();
+    const [updateProfile] = useUpdateProfile(auth);
+    const { register, formState: { errors }, handleSubmit, reset } = useForm<SignupValue>();
 
-    const onSubmit = async (data: FormValue) => {
+    const onSubmit = async (data: SignupValue) => {
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({
             displayName: data.username,
@@ -30,15 +25,11 @@ const SignUp = () => {
         reset()
         if (loading) {
             toast.loading('Loading...')
-        }
-        if (error) {
+        } else if (error) {
             toast.error(error.message)
-        }
-        if (user?.user.email === data.email) {
+        } else {
             toast.success('Successfully account created!')
         }
-
-        console.log(user?.user.email, data.email)
     };
 
     return (
@@ -68,7 +59,7 @@ const SignUp = () => {
                             className='bg-transparent text-lg p-2 border-b border-slate-50 border-0 focus:outline-none text-slate-50 w-full'
                             type={`${showPass ? 'text' : 'password'}`}
                             placeholder='Password'
-                            {...register("password", { required: "Password is required" })}
+                            {...register("password", { required: "Password is required", minLength: 8, maxLength: 20 })}
                         />
                         <button className='text-slate-50 border-b border-slate-50 pb-2' onClick={() => setShowPass(!showPass)}>
                             {
@@ -76,7 +67,13 @@ const SignUp = () => {
                             }
                         </button>
                     </div>
-                    {errors.password && <p className='text-sm text-rose-600 mt-1' role="alert">{errors.password?.message}</p>}
+                    {errors.password && (
+                        <p className='text-sm text-rose-600 mt-1' role="alert">
+                            {errors.password?.message}
+                            {errors.password.type === 'minLength' && 'Password need at least 8 characters.'}
+                            {errors.password.type === 'maxLength' && 'Password no more than 20 characters'}
+                        </p>
+                    )}
                 </div>
                 <input className='py-1 px-8 rounded-full bg-teal-800 mt-2 cursor-pointer text-slate-50 hover:text-teal-800 hover:bg-slate-50 transition-all ease-in-out duration-500' type="submit" value="Sign Up" />
             </form>

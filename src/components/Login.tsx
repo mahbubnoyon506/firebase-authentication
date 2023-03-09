@@ -4,17 +4,7 @@ import { useForm } from 'react-hook-form';
 import auth from '../firebase.init';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import toast from 'react-hot-toast';
-
-type FormValue = {
-    email: string,
-    password: string
-}
-
-type StateType = {
-    open: boolean,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
+import { LoginValue, StateType } from '../shared/Types';
 
 const Login = ({ open, setOpen }: StateType) => {
     const [showPass, setShowPass] = useState<boolean>(false);
@@ -25,21 +15,19 @@ const Login = ({ open, setOpen }: StateType) => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
-    const { register, formState: { errors }, handleSubmit, reset } = useForm<FormValue>();
-    const onSubmit = async (data: FormValue) => {
+    const { register, formState: { errors }, handleSubmit, reset } = useForm<LoginValue>();
+    const onSubmit = async (data: LoginValue) => {
         await signInWithEmailAndPassword(data.email, data.password);
         reset()
         if (loading) {
             toast.loading('Loading...')
-        }
-        if (error) {
+        }else if (error) {
             toast.error(error.message)
-        }
-        if (user?.user.email === data.email) {
+        }else{
             toast.success('Successfully Logged In!')
         }
     };
-    console.log(user?.user.email)
+    
     return (
         <div className='my-2 md:my-4 lg:my-6'>
             <form onSubmit={handleSubmit(onSubmit)}>
