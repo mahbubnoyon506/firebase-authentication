@@ -1,16 +1,11 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { MdOutlineCancel } from 'react-icons/md'
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
-import auth from '../firebase.init';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { MdOutlineCancel } from 'react-icons/md';
+import auth from '../firebase.init';
 import { ResetValue, StateType } from '../shared/Types';
 
-
-
-type FormValue = {
-    email: string,
-}
 
 const ResetPass = ({ open, setOpen }: StateType) => {
     const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);

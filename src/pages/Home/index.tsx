@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../../components/Login';
-import SignUp from '../../components/SignUp';
 import ResetPass from '../../components/ResetPass';
+import SignUp from '../../components/SignUp';
 
 
 const Home = () => {

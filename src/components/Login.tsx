@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import auth from '../firebase.init';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import toast from 'react-hot-toast';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import auth from '../firebase.init';
 import { LoginValue, StateType } from '../shared/Types';
 
 const Login = ({ open, setOpen }: StateType) => {
