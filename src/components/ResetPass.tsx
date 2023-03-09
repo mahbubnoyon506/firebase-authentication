@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { MdOutlineCancel } from 'react-icons/md'
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import auth from '../firebase.init';
+import toast from 'react-hot-toast';
 
 type StateType = {
     open: boolean,
@@ -20,12 +21,19 @@ const ResetPass = ({ open, setOpen }: StateType) => {
     const onSubmit = async (data: FormValue) => {
         sendPasswordResetEmail(data.email)
         reset()
+        if(sending){
+            toast.loading('Loading...')
+        }else if(error){
+            toast.error(error.message)
+        }else{
+            toast.success('A password reset email sent.')
+        }
     };
 
     return (
         <div>
             <div className={`flex justify-center items-center`}>
-                <div className={`absolute bg-slate-50 md:w-2/3 lg:w-1/3 min-h-[300px] md:min-h-[340px] lg:min-h-[420px] p-5 rounded shadow-lg transition-all ease-in-out duration-500 ${open ? 'top-32' : 'top-[-500px]'}`}>
+                <div className={`absolute bg-slate-50 md:w-2/3 lg:w-1/3 min-h-[260px] md:min-h-[300px] lg:min-h-[380px] p-5 rounded shadow-lg transition-all ease-in-out duration-500 ${open ? 'top-40' : 'top-[-500px]'}`}>
                     <div className='flex justify-end '>
                         <MdOutlineCancel className='cursor-pointer' onClick={() => setOpen(!open)} size={30} />
                     </div>
